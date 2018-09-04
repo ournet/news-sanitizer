@@ -7,14 +7,15 @@
   "scripts": {
     "pretest": "npm run clean && npm run tsc",
     "test": "ava --no-cache --verbose lib/**/*.test.js",
-    "posttest": "npm run clean-test-code",
+    "posttest": "npm run clean-test",
     "tsc": "tsc",
     "tscw": "tsc -w",
     "preversion": "npm run tsc",
     "postversion": "git push --follow-tags",
-    "prepublishOnly": "npm run tsc && npm run clean-test-code",
+    "prepublishOnly": "npm run tsc && npm run clean-test && npm run clean-scripts",
     "clean": "rimraf ./lib",
-    "clean-test-code": "rimraf ./lib/**/*.test.js",
+    "clean-test": "rimraf ./lib/**/*.test.js && rimraf ./lib/**/*.test.d.ts",
+    "clean-scripts": "rimraf ./lib/scripts",
     "normalize": "node ./lib/scripts/normalize-titles.js"
   },
   "engines": {

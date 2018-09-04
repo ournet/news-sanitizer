@@ -1,6 +1,6 @@
 
 import { join } from 'path';
-import { readFile, writeFile } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 
 export function getSupportedLanguages() {
     return ['ro'];
@@ -13,35 +13,23 @@ export function getTitlesPath(lang: string) {
     return join(__dirname, '..', 'data', lang, 'title.txt');
 }
 
-export function readTitles(lang: string): Promise<string[]> {
+export function readTitles(lang: string) {
     const path = getTitlesPath(lang);
 
-    return new Promise((resolve, reject) => {
-        readFile(path, 'utf8', (error, data) => {
-            if (error) {
-                return reject(error);
-            }
-            const list = data.split(/\s*\n\s*/g).filter(item => item.trim().length > 0);
-            resolve(list);
-        })
-    })
+    const data = readFileSync(path, 'utf8');
+    const list = data.split(/\s*\n\s*/g).filter(item => item.trim().length > 0);
+
+    return list;
 }
 
-export function writeTitles(lang: string, titles: string[]): Promise<void> {
+export function writeTitles(lang: string, titles: string[]) {
     const path = getTitlesPath(lang);
     titles = titles.filter(item => item && item.trim().length > 0)
         .map(item => item.trim());
 
     titles = titles.sort();
 
-    return new Promise((resolve, reject) => {
-        writeFile(path, '\n' + titles.join('\n') + '\n', 'utf8', error => {
-            if (error) {
-                return reject(error);
-            }
-            resolve();
-        })
-    })
+    writeFileSync(path, '\n' + titles.join('\n') + '\n', 'utf8');
 }
 
 export function escapeRegExp(str: string) {
