@@ -22,31 +22,13 @@ export function sanitizeTitle(title: string, lang: string) {
 }
 
 function sanitizeTitleEnd(title: string, data: DataItem) {
-    const parts = title.split(END_SEPARATOR);
-
-    if (parts.length < 2) {
+    const reversedTitle = title.split('').reverse().join('');
+    let segment = getTitleSegment(reversedTitle, data.maxWordLength + 4, END_SEPARATORS);
+    if (!segment) {
         return title;
     }
 
-    const maxLength = data.maxWordLength * 2;
-    const segments: string[] = []
-    let segmentLength = 0;
-
-    for (let i = parts.length - 1; i >= 0; i--) {
-        const part = parts[i];
-        const l = segmentLength + part.length + 1;
-
-        if (l < maxLength && l < title.length / 1.5) {
-            segments.push(part);
-            segmentLength += part.length + 1;
-        } else {
-            break;
-        }
-    }
-    if (!segmentLength) {
-        return title;
-    }
-    const segment = segments.reverse().join(' ');
+    segment = segment.split('').reverse().join('');
 
     const regResult = data.reg.exec(segment);
 
@@ -54,28 +36,13 @@ function sanitizeTitleEnd(title: string, data: DataItem) {
         return title;
     }
 
-    title = title.substr(0, title.length - segment.length - 1).trim();
+    title = title.substr(0, title.length - segment.length).trim();
 
     return title;
 }
 
 function sanitizeTitleStart(title: string, data: DataItem) {
-    const parts = title.split(START_SEPARATOR);
-
-    if (parts.length < 2) {
-        return title;
-    }
-
-    const maxLength = data.maxWordLength * 2;
-    let segment = '';
-    for (const part of parts) {
-        const l = segment.length + part.length + 1;
-        if (l < maxLength && l < title.length / 1.5) {
-            segment = segment ? (segment + ' ' + part) : part;
-        } else {
-            break;
-        }
-    }
+    const segment = getTitleSegment(title, data.maxWordLength + 4, START_SEPARATORS);
     if (!segment) {
         return title;
     }
@@ -86,9 +53,25 @@ function sanitizeTitleStart(title: string, data: DataItem) {
         return title;
     }
 
-    title = title.substr(segment.length + 1).trim();
+    title = title.substr(segment.length).trim();
 
     return title;
+}
+
+function getTitleSegment(title: string, maxLength: number, separators: string[]) {
+    let lastIndex = -1;
+    for (const separator of separators) {
+        const index = title.indexOf(separator);
+        if (index > 0) {
+            const currentIndex = index + separator.length;
+            if (lastIndex < currentIndex && currentIndex < maxLength) {
+                lastIndex = index + separator.length;
+            }
+        }
+    }
+    if (lastIndex > 0) {
+        return title.substr(0, lastIndex);
+    }
 }
 
 function getItem(lang: string) {
@@ -102,8 +85,8 @@ function getItem(lang: string) {
     }
 }
 
-const START_SEPARATOR = new RegExp('[' + escapeRegExp(':|/)-].') + ']', 'g');
-const END_SEPARATOR = new RegExp('[' + escapeRegExp(':|/(-[.') + ']', 'g');
+const START_SEPARATORS = [':', '|', '/', ')', '-', ']', '.'];
+const END_SEPARATORS = [':', '|', '/', '(', '-', '[', '.'];
 
 const CACHE: { [key: string]: DataItem | null } = {};
 
