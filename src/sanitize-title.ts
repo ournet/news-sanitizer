@@ -23,13 +23,12 @@ export function sanitizeTitle(title: string, lang: string) {
 
 function sanitizeTitleEnd(title: string, data: DataItem) {
     const reversedTitle = title.split('').reverse().join('');
-    let segment = getTitleSegment(reversedTitle, data.maxWordLength + 4, END_SEPARATORS);
+    let segment = getTitleSegment(reversedTitle, data.maxWordLength + 4, END_SEPARATORS.map(item => item.split('').reverse().join('')));
     if (!segment) {
         return title;
     }
 
     segment = segment.split('').reverse().join('');
-
     const regResult = data.reg.exec(segment);
 
     if (!regResult) {
@@ -92,13 +91,13 @@ function getItem(lang: string) {
         return null;
     }
     return {
-        reg: new RegExp('\\b(' + lines.join('|') + ')\\b', 'i'),
+        reg: new RegExp('(\\b|^|\\s)(' + lines.join('|') + ')(\\b|\\s|$)', 'i'),
         maxWordLength: lines.reduce<number>((max, current) => current.length > max ? current.length : max, 0),
     }
 }
 
-const START_SEPARATORS = [':', '|', '/', ')', '-', ']', '.'];
-const END_SEPARATORS = [':', '|', '/', '(', '-', '[', '.'];
+const START_SEPARATORS = [': ', '|', '/', ')', ']', '.', '—', '- '];
+const END_SEPARATORS = [' :', '|', '/', '(', '[', '.', '—', ' -'];
 
 const CACHE: { [key: string]: DataItem | null } = {};
 
