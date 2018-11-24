@@ -54,3 +54,8 @@ test('start: multiple separators', t => {
 test('end: multiple separators', t => {
     t.is(sanitizeTitle('Titlu stire || VIDEO', 'ro'), 'Titlu stire');
 })
+
+test('end: — видео', t => {
+    t.is(sanitizeTitle('В России начали распечатывать торты на 3D- принтере — видео', 'ru'),
+        'В России начали распечатывать торты на 3D- принтере');
+})
