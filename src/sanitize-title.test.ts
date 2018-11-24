@@ -46,3 +46,11 @@ test('end: many words upper case', t => {
     t.is(sanitizeTitle('Titlu stire. FOTO & VIDEO', 'ro'), 'Titlu stire');
     t.is(sanitizeTitle('Titlu stire / Wow! VIDEO', 'ro'), 'Titlu stire');
 })
+
+test('start: multiple separators', t => {
+    t.is(sanitizeTitle('Video ///Titlu stire', 'ro'), 'Titlu stire');
+})
+
+test('end: multiple separators', t => {
+    t.is(sanitizeTitle('Titlu stire || VIDEO', 'ro'), 'Titlu stire');
+})

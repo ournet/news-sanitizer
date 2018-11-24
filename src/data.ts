@@ -33,5 +33,5 @@ export function writeTitles(lang: string, titles: string[]) {
 }
 
 export function escapeRegExp(str: string) {
-    return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$1');
 }

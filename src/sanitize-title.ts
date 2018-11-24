@@ -38,6 +38,12 @@ function sanitizeTitleEnd(title: string, data: DataItem) {
 
     title = title.substr(0, title.length - segment.length).trim();
 
+    let index = END_SEPARATORS.indexOf(title[title.length - 1]);
+    while (~index) {
+        title = title.substr(0, title.length - 2).trim();
+        index = END_SEPARATORS.indexOf(title[title.length - 1]);
+    }
+
     return title;
 }
 
@@ -54,6 +60,12 @@ function sanitizeTitleStart(title: string, data: DataItem) {
     }
 
     title = title.substr(segment.length).trim();
+
+    let index = START_SEPARATORS.indexOf(title[0]);
+    while (~index) {
+        title = title.substr(1).trim();
+        index = START_SEPARATORS.indexOf(title[0]);
+    }
 
     return title;
 }
