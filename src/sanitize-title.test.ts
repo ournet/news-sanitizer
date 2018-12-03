@@ -59,3 +59,13 @@ test('end: — видео', t => {
     t.is(sanitizeTitle('В России начали распечатывать торты на 3D- принтере — видео', 'ru'),
         'В России начали распечатывать торты на 3D- принтере');
 })
+
+test('Exclusive! ', t => {
+    t.is(sanitizeTitle(`Exclusive! This SIGNATURE dialogue of Ajay Devgn's Singham will be a part of Ranveer Singh's Simmba`, 'en'),
+        `This SIGNATURE dialogue of Ajay Devgn's Singham will be a part of Ranveer Singh's Simmba`);
+})
+
+test('[VIDEO] ', t => {
+    t.is(sanitizeTitle(`[VIDEO] First single Thandaane Thandaane from Ram Charan’s Vinaya Vidheya Rama is out now`, 'en'),
+        `First single Thandaane Thandaane from Ram Charan’s Vinaya Vidheya Rama is out now`);
+})

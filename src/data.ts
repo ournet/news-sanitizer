@@ -3,7 +3,7 @@ import { join } from 'path';
 import { readFileSync, writeFileSync } from 'fs';
 
 export function getSupportedLanguages() {
-    return ['ro', 'ru', 'bg'];
+    return ['ro', 'ru', 'bg', 'en'];
 }
 
 export function getTitlesPath(lang: string) {

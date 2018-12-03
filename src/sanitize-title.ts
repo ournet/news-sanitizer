@@ -96,7 +96,7 @@ function getItem(lang: string) {
     }
 }
 
-const START_SEPARATORS = [': ', '|', '/', ')', ']', '.', '—', '- '];
+const START_SEPARATORS = [': ', '|', '/', ')', ']', '.', '—', '- ', '! '];
 const END_SEPARATORS = [' :', '|', '/', '(', '[', '.', '—', ' -'];
 
 const CACHE: { [key: string]: DataItem | null } = {};
