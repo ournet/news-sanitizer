@@ -1,12 +1,12 @@
-import { getSupportedLanguages, readTitles, writeTitles } from "../data";
+import { getSupportedLanguages, readDataTitles, writeDataTitles } from "../data";
 
 async function normalize() {
 
     const languages = getSupportedLanguages();
 
     for (const lang of languages) {
-        const titles = await readTitles(lang);
-        await writeTitles(lang, titles);
+        const titles = await readDataTitles(lang);
+        await writeDataTitles(lang, titles);
     }
 
 }

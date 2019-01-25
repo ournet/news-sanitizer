@@ -1,4 +1,4 @@
-import { getSupportedLanguages, readTitles, escapeRegExp } from "./data";
+import { getSupportedLanguages, readDataTitles, escapeRegExp } from "./data";
 
 export function sanitizeTitle(title: string, lang: string) {
     if (!title || getSupportedLanguages().indexOf(lang) < 0) {
@@ -86,7 +86,7 @@ function getTitleSegment(title: string, maxLength: number, separators: string[])
 }
 
 function getItem(lang: string) {
-    const lines = (readTitles(lang) || []).map(escapeRegExp);
+    const lines = (readDataTitles(lang) || []).map(escapeRegExp);
     if (!lines.length) {
         return null;
     }
