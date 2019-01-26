@@ -1,6 +1,6 @@
 
 import { join } from 'path';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
 
 export function getSupportedLanguages() {
     return ['ro', 'ru', 'bg', 'en', 'it', 'hu', 'cs'];
@@ -50,6 +50,10 @@ const BODY_TYPE_REG = /^---(end|line)/i;
 
 export function readDataBody(lang: string): DataBodyItem[] {
     const path = getDataBodyPath(lang);
+
+    if (!existsSync(path)) {
+        return [];
+    }
 
     const data = readFileSync(path, 'utf8');
     const items = data.split(/\s*\n\s*/g).filter(item => item.trim().length > 0);
