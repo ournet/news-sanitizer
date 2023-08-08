@@ -3,6 +3,9 @@
 
 Citește și
 Citeste si
+Articolul [^\n]+ apare prima dat[ăa]
+© Copyright
+\(
 
 ---end
 
